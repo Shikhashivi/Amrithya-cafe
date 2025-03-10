@@ -11,7 +11,7 @@ const ReservationDetails = () => {
   const handleConfirm = async () => {
     const booking = { ...location.state, ...userDetails };
 
-    await axios.post("http://localhost:5000/api/bookings", booking);
+    await axios.post("https://amrithya-cafe-12.onrender.com/api/bookings", booking);
     alert(`Booking confirmed ${userDetails.name} Check your WhatsApp for details.`);
     navigate("/");
   };

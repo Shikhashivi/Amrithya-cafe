@@ -6,8 +6,7 @@ const twilio = require("twilio");
 
 const app = express();
 app.use(cors({
-    origin: ["http://deploy-mern-1whq.vercel.app"],
-    methods: ["POST"],
+    origin: ["https://amrithya-cafe-12.onrender.com"],
     credentials: true
 }));
 
