@@ -1,26 +1,15 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const twilio = require("twilio");
 
 const app = express();
 app.use(cors({
-    origin: ["https://your-backend.onrender.com/"],
+    origin: ["https://flourishing-tarsier-87bdf4.netlify.app/", "http://localhost:5173"],
     methods: ["POST"],
     credentials: true
 }));
-
 app.use(express.json());
-
-// ✅ Validate MongoDB URI
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ Connected to MongoDB"))
-    .catch((err) => console.error("MongoDB connection error:", err));
-   
-
-// ✅ MongoDB Connection with Error Handling
-
 
 // ✅ Validate Twilio Credentials
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -34,19 +23,8 @@ if (!accountSid || !authToken || !twilioNumber) {
 
 const client = new twilio(accountSid, authToken);
 
-// ✅ Booking Schema & Model
-const BookingSchema = new mongoose.Schema({
-    name: String,
-    phone: String,
-    club: String,
-    time: String,
-    table: Number,
-});
-
-const Booking = mongoose.model("Booking", BookingSchema);
-
-// ✅ Booking API Endpoint
-app.post("https://your-backend.onrender.com/api/bookings", async (req, res) => {
+// ✅ Booking API Endpoint (No Database, Only WhatsApp)
+app.post("http://localhost:5001/api/bookings", async (req, res) => {
     try {
         const { name, phone, club, time, table } = req.body;
 
@@ -55,13 +33,12 @@ app.post("https://your-backend.onrender.com/api/bookings", async (req, res) => {
 
         const message = await client.messages.create({
             from: "whatsapp:+14155238886",  // Twilio Sandbox Number
-            to: `whatsapp:${phone}`,  // Send message to the provided phone number
+            to: `whatsapp:${phone}`,  
             body: `📅 Booking Confirmed!\n\nDear ${name},\nYour reservation is confirmed at Amrithya Cafe for ${time} at Table ${table} in ${club}. Enjoy! 🍽️`,
         });
 
         console.log("✅ WhatsApp Message Sent:", message.sid);
-
-        res.json({ message: "Booking Confirmed!", booking: req.body, twilioResponse: message.sid });
+        res.json({ message: "Booking Confirmed!", twilioResponse: message.sid });
     } catch (error) {
         console.error("❌ Error sending WhatsApp message:", error);
         res.status(500).json({ error: "Failed to send WhatsApp confirmation.", details: error.message });
@@ -69,6 +46,5 @@ app.post("https://your-backend.onrender.com/api/bookings", async (req, res) => {
 });
 
 // ✅ Server Listen
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
