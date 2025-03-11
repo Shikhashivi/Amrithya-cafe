@@ -24,7 +24,7 @@ if (!accountSid || !authToken || !twilioNumber) {
 const client = new twilio(accountSid, authToken);
 
 // ✅ Booking API Endpoint (No Database, Only WhatsApp)
-app.post("http://localhost:5001/api/bookings", async (req, res) => {
+app.post("https://amrithya-cafe-6.onrender.com/bookings", async (req, res) => {
     try {
         const { name, phone, club, time, table } = req.body;
 

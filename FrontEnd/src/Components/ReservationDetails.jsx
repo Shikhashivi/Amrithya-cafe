@@ -12,7 +12,7 @@ const ReservationDetails = () => {
     const booking = { ...location.state, ...userDetails }; // Corrected reference
 
     try {
-      const response = await axios.post("https://amrithya-cafe-12.onrender.com/api/bookings", booking);
+      const response = await axios.post("https://amrithya-cafe-6.onrender.com/api/bookings", booking);
       console.log("✅ Booking Confirmed:", response.data);
       alert("Booking Confirmed!");
     } catch (error) {
