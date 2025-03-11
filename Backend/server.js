@@ -6,7 +6,8 @@ const twilio = require("twilio");
 
 const app = express();
 app.use(cors({
-    origin: ["https://amrithya-cafe-12.onrender.com"],
+    origin: ["https://your-backend.onrender.com/"],
+    methods: ["POST"],
     credentials: true
 }));
 
@@ -20,7 +21,6 @@ mongoose.connect(process.env.MONGO_URI)
 
 // ✅ MongoDB Connection with Error Handling
 
-    
 
 // ✅ Validate Twilio Credentials
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -46,7 +46,7 @@ const BookingSchema = new mongoose.Schema({
 const Booking = mongoose.model("Booking", BookingSchema);
 
 // ✅ Booking API Endpoint
-app.post("/api/bookings", async (req, res) => {
+app.post("https://your-backend.onrender.com/api/bookings", async (req, res) => {
     try {
         const { name, phone, club, time, table } = req.body;
 

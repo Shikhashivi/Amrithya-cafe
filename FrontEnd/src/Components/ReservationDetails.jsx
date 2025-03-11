@@ -11,7 +11,7 @@ const ReservationDetails = () => {
   const handleConfirm = async () => {
     const booking = { ...location.state, ...userDetails };
 
-    await axios.post("https://amrithya-cafe-12.onrender.com/api/bookings", booking);
+    await axios.post("https://your-backend.onrender.com/api/bookings", booking);
     alert(`Booking confirmed ${userDetails.name} Check your WhatsApp for details.`);
     navigate("/");
   };
@@ -33,7 +33,7 @@ const ReservationDetails = () => {
           type="email"
           placeholder="Your email"
           className="w-full mt-4 p-2 rounded bg-gray-700 text-white text-sm md:text-lg"
-          // onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
+          onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
         />
         <input
           type="text"
